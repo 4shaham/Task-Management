@@ -26,8 +26,8 @@ export const userAuthSlice=createSlice({
 
     reducers:{
 
-        loginStatusChange:(state)=>{
-           state.userAuthStatus.userAuthStatus=true
+        loginStatusChange:(state,action)=>{
+          state.userAuthStatus=action.payload
         },
         logOutStatusChange:(state)=>{
           state.userAuthStatus.userAuthStatus=false

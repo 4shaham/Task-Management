@@ -23,16 +23,17 @@ import {
   DialogFooter,
   Textarea,
 } from "@material-tailwind/react";
-import { Input, Typography } from "@material-tailwind/react";
-import { useDispatch, useSelector } from "react-redux";
-import { increment, setDateOf } from "../redux/slice/dateSlice";
-import { addTask, getAllEmpoyees } from "../api/user";
+import {Input} from "@material-tailwind/react";
+import {useDispatch, useSelector } from "react-redux";
+import {setDateOf} from "../redux/slice/dateSlice";
+import { addTask,getAllEmpoyees } from "../api/user";
 import IUser from "../interface/Iuser";
 
 const ManagerSideBar = () => {
+
+  const role=useSelector((state:any)=>state.userReducer.userAuthStatus.role)
   const [currentDate, setCurrentDate] = useState(new Date());
   const dispatch = useDispatch();
-  const [employeeSearch, setEmployeeSearch] = useState<string>("");
   const [employees, setEmployees] = useState<IUser[]>([]);
   //
   const [formData, setFormData] = useState({
@@ -46,11 +47,7 @@ const ManagerSideBar = () => {
   });
   const selectedDate = useSelector((state: any) => state.dateReducer.date);
 
-  // const [tasks, setTasks]=useState([
-  //   { id: 1, title: "Complete project", due: "Today", completed: false },
-  //   { id: 2, title: "Team meeting", due: "Tomorrow", completed: false },
-  //   { id: 3, title: "Review docs", due: format(addMonths(new Date(), 1), 'MMM dd'), completed: false },
-  // ]);
+
 
   useEffect(() => {
     const hadndleFn = async () => {
@@ -70,7 +67,7 @@ const ManagerSideBar = () => {
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-
+  console.log(daysInMonth)
   // Get days for calendar grid
   const startDate = startOfMonth(currentDate);
   const startWeek = startOfMonth(startDate);
@@ -89,15 +86,7 @@ const ManagerSideBar = () => {
     dispatch(setDateOf(date));
   };
 
-  // const handleSearchChange = async(e:React.ChangeEvent<HTMLInputElement>) => {
-
-  //   // Your logic here
-  //     setEmployeeSearch(e.target.value)
-  //     // const response=await getAllEmpoyees()
-  //     // setEmployees(response.data.employees)
-  //     console.log(employees)
-
-  // };
+ 
 
   const handleSubmit = async(e: any) => {
 
@@ -111,16 +100,17 @@ const ManagerSideBar = () => {
       handleOpen();
       alert("successfully added task") 
     } catch (error) {
-         
         console.log(error)
-
     }
-
-
 
   };
 
+ 
+
   const toggleEmployee = (employeeId: any) => {
+
+   
+     
     setFormData((prev: any) => ({
       ...prev,
       selectedEmployees: prev.selectedEmployees.includes(employeeId)
@@ -131,14 +121,21 @@ const ManagerSideBar = () => {
 
   return (
     <aside className="w-64 p-4 border-r border-gray-200 h-[calc(100vh-64px)] flex flex-col bg-white">
+      
+      
       {/* Create Button */}
-      <Button
-        onClick={handleOpen}
-        className="mb-6 shadow-sm bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 py-3"
-      >
-        <Plus className="h-5 w-5" />
-        Create
-      </Button>
+
+    
+      {role=="Manager" && 
+          <Button
+          onClick={handleOpen}
+          className="mb-6 shadow-sm bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 py-3"
+        >
+          <Plus className="h-5 w-5" />
+          Create
+        </Button>
+      }
+     
 
       <Dialog open={open} handler={handleOpen} size="lg">
         <form onSubmit={handleSubmit}>

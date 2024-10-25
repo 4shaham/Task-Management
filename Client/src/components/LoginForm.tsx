@@ -29,7 +29,14 @@ export function LoginForm() {
     try {
       let response = await login(data.email, data.password);
       console.log(response, "hiiii heloo");
-      dispatch(loginStatusChange());
+      let res={
+        id:response.data.payload.userData._id,              
+        role:response.data.payload.userData.role,         
+        email:response.data.payload.userData.email,        
+        userAuthStatus:true 
+      }
+      console.log(res)
+      dispatch(loginStatusChange(res));
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {

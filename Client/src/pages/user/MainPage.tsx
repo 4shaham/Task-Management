@@ -1,54 +1,52 @@
 
-import NavbarWithMegaMenu from "../../components/Navbar";
-import FooterWithSitemap from "../../components/Footer";
 import { Navigate, Outlet } from "react-router-dom";
-import { loginStatusChange, logOutStatusChange } from "../../redux/slice/userAuthSlice";
+import {
+  loginStatusChange,
+  logOutStatusChange,
+} from "../../redux/slice/userAuthSlice";
 import { tokenVerification } from "../../api/user";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-function mainPage(){
+function mainPage() {
+  const [isloading, setIsloading] = useState<Boolean>(true);
+  const [userStatus, setUserStatus] = useState<Boolean>(false);
 
-  const [isloading,setIsloading]=useState<Boolean>(true)
-  const [userStatus,setUserStatus]=useState<Boolean>(false) 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
+    const handleFn = async () => {
+      try {
+        let response = await tokenVerification();
+        console.log(response, "hiiiiiiiiiiiiiiiii");
+        let tokendata = response.data.tokenData;
+        let data = {
+          id: tokendata.id,
+          role: tokendata.role,
+          email: tokendata.email,
+          userAuthStatus: true,
+        };
 
-      const handleFn=async()=>{
-          try {
-            
-            await tokenVerification()
-            setUserStatus(true)
-            dispatch(loginStatusChange())
-
-          } catch (error) {
-
-            dispatch(logOutStatusChange())
-
-          }finally{
-            setIsloading(false)
-          }
+        setUserStatus(true);
+        dispatch(loginStatusChange(data));
+      } catch (error) {
+        dispatch(logOutStatusChange());
+      } finally {
+        setIsloading(false);
       }
-      handleFn()
+    };
+    handleFn();
+  }, []);
 
-  },[])
-
-
-  if(isloading){
-    return <div>...loading</div>
+  if (isloading) {
+    return <div>...loading</div>;
   }
-
-
 
   return (
     <div className="w-full p-4">
-     
-         {userStatus?<Outlet/>:<Navigate to={"/login"}/>}
-  
+      {userStatus ? <Outlet /> : <Navigate to={"/login"} />}
     </div>
-  )
-
+  );
 }
 
-export default mainPage
+export default mainPage;

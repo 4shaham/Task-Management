@@ -6,20 +6,20 @@ import WeakCallender from "../../components/WeakCallender";
 import { useEffect, useState } from "react";
 import { getAllTask } from "../../api/user";
 import { useSelector } from "react-redux";
-import IEvens from "../../interface/events";
 
 const GoogleCalendarUI = () => {
-
   const [viewMode, setViewMode] = useState<"day" | "week" | "month">("week");
   const callBack = (val: "day" | "week" | "month") => {
     setViewMode(val);
   };
-  const selectedDate = useSelector((state: any) => state.dateReducer.date);
 
-  const [tasks,setTasks]=useState<any>()
+  const role = useSelector(
+    (state: any) => state.userReducer.userAuthStatus.role
+  );
+  const selectedDate = useSelector((state: any) => state.dateReducer.date);
+  const [tasks, setTasks] = useState<any>();
 
   useEffect(() => {
-
     const handleFn = async () => {
       let endDate = selectedDate;
       if (viewMode === "month") {
@@ -31,29 +31,15 @@ const GoogleCalendarUI = () => {
       } else if (viewMode === "day") {
         endDate = new Date(selectedDate);
       }
-       const response=await getAllTask(selectedDate,endDate);
-       const tasks: IEvens[] = response.data.task as IEvens[];
 
-       const map: Map<string, IEvens[]> = new Map();
-
-       for(const task of tasks) {
-        if(viewMode === "day") {
-          if(map.has(task.startTime)) {
-            const tasksArray = map.get(task.startTime);
-            tasksArray?.push(task);
-          }else {
-            map.set(task.startTime, [ task ]);
-          }
-        }
-       }
-      //  console.log(response.data.task)
-       setTasks(Array.from(map));
+      if (role == "Manager") {
+        const response = await getAllTask(selectedDate, endDate, viewMode);
+        setTasks(response.data.task);
+      } else {
+      }
     };
     handleFn();
-
-  },[selectedDate,viewMode]);
-
-
+  }, [selectedDate, viewMode]);
 
   return (
     <div className="min-h-screen bg-white mt-3">
@@ -61,11 +47,10 @@ const GoogleCalendarUI = () => {
         <ManagerSideBar />
 
         {/* Main Calendar Area */}
-        <main className="flex-1 p-4">
 
+        <main className="flex-1 p-4">
           <CallenderController callBack={callBack} />
 
-          
           {viewMode == "month" && <MonthCallender />}
 
           {viewMode == "day" && <DayView events={tasks} />}

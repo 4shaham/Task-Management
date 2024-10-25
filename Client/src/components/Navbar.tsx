@@ -7,10 +7,7 @@ import {
   Typography,
   Button,
   IconButton,
-  List,
-  ListItem,
 } from "@material-tailwind/react";
-import Calendar from 'react-calendar';
 import {
   Bars3Icon,
   XMarkIcon,

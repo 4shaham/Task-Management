@@ -21,14 +21,21 @@ export const userRegister = async (
     managerEmail,
   });
 
+
 export const logout = async (): Promise<any> =>
   await api.post(userEndPoints.logout);
+
+
 
 export const tokenVerification = async (): Promise<any> =>
   await api.get(userEndPoints.tokenVerification);
 
+
+
 export const getAllEmpoyees = async (): Promise<any> =>
   await api.get(userEndPoints.getAllEmpoyees);
+
+
 
 export const addTask = async (
   title: string,
@@ -49,10 +56,15 @@ export const addTask = async (
     endTime,
   });
 
+
+
 export const getAllTask = async (
   startDate: Date,
-  endDate: Date
+  endDate: Date,
+  filterStatus:"day" | "week" | "month"
 ): Promise<any> =>
   await api.get(
-    `${userEndPoints.getManagerTask}?startDate=${startDate}&&endDate=${endDate}`
+    `${userEndPoints.getManagerTask}?startDate=${startDate}&&endDate=${endDate}&&fiterStaus=${filterStatus}`
   );
+
+  

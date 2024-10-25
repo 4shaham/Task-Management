@@ -2,7 +2,7 @@ import { RegisterationFromData } from "../interface/FormData";
 
 import { userRegister } from "../api/user";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+// import { useState} from "react";
 import {
   Card,
   Input,
@@ -13,9 +13,6 @@ import {
   Select,
   Option,
   List,
-  ListItem,
-  ListItemPrefix,
-  Checkbox,
 } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -32,16 +29,10 @@ export function RegisterForm() {
   const selectedRole = watch("role");
   const password = watch("password");
   const navigate = useNavigate();
-  const [selectedManager, setSelectedManager] = useState<null | string>(null);
 
-  const [managers, setManagers] = useState([
-    // This would typically come from your API
-    { id: 1, name: "Manager 1", email: "manager1@example.com" },
-    { id: 2, name: "Manager 2", email: "manager2@example.com" },
-    { id: 3, name: "Manager 3", email: "manager3@example.com" },
-    { id: 4, name: "Manager 4", email: "manager4@example.com" },
-    { id: 5, name: "Manager 5", email: "manager5@example.com" },
-  ]);
+  // const [selectedManager, setSelectedManager] = useState<null | string>(null);
+
+
 
   const handleFormSubmit = async (data: RegisterationFromData) => {
     try {
@@ -70,13 +61,16 @@ export function RegisterForm() {
     }
   };
 
-  const handleManagerSelection = (managerEmail: string) => {
-    setSelectedManager(managerEmail);
-    setValue("managerEmail", managerEmail);
-  };
+  // const handleManagerSelection = (e:any,managerEmail: string) => {
+  //   e.preventDefaul()
+  //   alert(managerEmail)
+  //   setSelectedManager(managerEmail);
+  //   // setValue("managerEmail", managerEmail);
+  // };
 
   return (
     <Card shadow={false} className="md:px-24 md:py-14 py-8 bg-gray-100">
+
       <CardHeader shadow={false} floated={false} className="text-center">
         <Typography
           variant="h1"
@@ -253,7 +247,8 @@ export function RegisterForm() {
 
                 <Card className="w-full">
                   <List className="max-h-48 overflow-y-auto">
-                    {managers.map((manager) => (
+                    <>hii</>
+                    {/* {managers.map((manager) => (
                       <ListItem
                         key={manager.id}
                         className="p-0"
@@ -270,8 +265,8 @@ export function RegisterForm() {
                               name="manager-selection"
                               value={manager.email}
                               checked={selectedManager === manager.email}
-                              onChange={() =>
-                                handleManagerSelection(manager.email)
+                              onChange={(e) =>
+                                handleManagerSelection(e,manager.email)
                               }
                               className="form-radio" // Tailwind class for radio styling
                             />
@@ -289,7 +284,7 @@ export function RegisterForm() {
                           </div>
                         </label>
                       </ListItem>
-                    ))}
+                    ))} */}
                   </List>
                 </Card>
 

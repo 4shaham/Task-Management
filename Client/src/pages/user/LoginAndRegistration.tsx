@@ -1,4 +1,3 @@
-import { Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
@@ -15,9 +14,17 @@ function LoginAndRegistration() {
 
       const handleFn=async()=>{
           try {
-            await tokenVerification()
+
+            let response=await tokenVerification()
+            let tokendata=  response.data.tokenData
+            let data={
+             id:tokendata.id,              
+             role:tokendata.role,         
+             email:tokendata.email,        
+             userAuthStatus:true 
+            } 
             setUserStatus(true)
-            dispatch(loginStatusChange())
+            dispatch(loginStatusChange(data))
 
           } catch (error) {
 
