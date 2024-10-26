@@ -76,7 +76,7 @@ const CallenderController =() => {
             <Button>{va}</Button>
           </MenuHandler>
           <MenuList>
-            {menuData.filter((val:any)=>val!=va).map((values, index) => (
+            {menuData.map((values, index) => (
               <MenuItem onClick={() => hanldeClickMenu(values, index)}>
                 {values}
               </MenuItem>
