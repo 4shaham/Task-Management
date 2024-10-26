@@ -21,12 +21,12 @@ export default class AuthController implements IAuthController {
       }
 
       const response = await this.authUseCase.loginUseCase({ email, password });
-      res.cookie("token", "testTokenValue", { 
+      console.log("response sive ie")
+      res.cookie("token",response.token,{ 
         maxAge: 3600000, 
         secure: true, 
       });
-      
-      
+      console.log(req.cookies.tokenm,"tokens")
       res.status(StatusCode.success).json({payload:response});
 
     } catch (error) {  

@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 app.use(cors({
     origin:"https://task-management-frontend.shaham.website",
-    credentials:true
+    credentials: true 
 }))
 
 
