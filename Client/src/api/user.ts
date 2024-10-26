@@ -3,8 +3,7 @@ import userEndPoints from "../service/endPoints/userEndPoints";
 
 export const login = async (email: string, password: string): Promise<any> =>{
   
-   const da= await api.get('api/set-cookie-test')
-   console.log(da,"dkres") 
+ 
 
   return await api.post(userEndPoints.login, { email, password });
 }
