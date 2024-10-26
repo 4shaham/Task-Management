@@ -23,6 +23,7 @@ const DayView: React.FC<Props> = ({ events }) => {
     return `${hour}:00`;
   });
 
+
   // Helper function to check if a task belongs in a time slot
   const isTaskInTimeSlot = (task: IEvens, timeSlot: string) => {
     const taskHour = task.startTime.split(":")[0];
@@ -70,22 +71,6 @@ const DayView: React.FC<Props> = ({ events }) => {
                         .filter((task) => isTaskInTimeSlot(task, time))
                         ?.map((task: any) => (
                           <Task task={task} />
-
-                          //   <div
-                          //     key={`${event._id}-${taskIndex}`}
-                          //     className={`rounded p-2 ${getBackgroundColor(task.startTime)}
-                          //       transition-all duration-200 hover:shadow-md cursor-pointer
-                          //       flex flex-col justify-between`}
-                          //   >
-                          //     <div className="flex flex-col flex-1">
-                          //       <div className="text-sm font-medium truncate">
-                          //         {task.title}
-                          //       </div>
-                          //       <div className="text-xs mt-1 opacity-75">
-                          //         {task.startTime} - {task.endTime}
-                          //       </div>
-                          //     </div>
-                          //   </div>
                         ))
                     )}
                   </div>
@@ -94,7 +79,7 @@ const DayView: React.FC<Props> = ({ events }) => {
             );
           })}
 
-          {/* Current time indicator */}
+       
           <div
             className="absolute w-full border-t-2 border-red-400 z-10"
             style={{

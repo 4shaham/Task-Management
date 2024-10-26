@@ -7,25 +7,34 @@ import MonthCallender from "../../components/MonthCallender";
 import WeakCallender from "../../components/WeakCallender";
 import { getAllTask } from "../../api/user";
 
+interface IEvens {
+  title: string;
+  startTime: string;
+  endTime: string;
+}
 
+interface Ta {
+  _id: string;
+  task: IEvens[];
+}
 
 const GoogleCalendarUI = () => {
-
   // const [viewMode, setViewMode] = useState<"day" | "week" | "month">("week");
   // const v:"day" | "week" | "month"=useSelector((state:any)=>state.viewReducer.status)
-  console.log("viewMode","djfkdjkfjdkj")
+  console.log("viewMode", "djfkdjkfjdkj");
   // const callBack = useCallback((val: "day" | "week" | "month") => {
   //   // setViewMode(val);
   // }, []);
 
-  const viewMode=useSelector((state:any)=>state?.viewReduxer.status)  
-  const selectedDate = useSelector((state: any) => state.dateReducer.date) || new Date();
-  
+  const viewMode = useSelector((state: any) => state?.viewReduxer.status);
+  const selectedDate =
+    useSelector((state: any) => state.dateReducer.date) || new Date();
+
   const [tasks, setTasks] = useState<any[]>([]);
+  const [dayCallander, setDayCallnder] = useState<Ta[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
     const handleFn = async () => {
       setIsLoading(true);
 
@@ -46,8 +55,15 @@ const GoogleCalendarUI = () => {
       }
 
       try {
-        const response = await getAllTask(startDate, endDate, viewMode);
-        setTasks(response.data.task);
+
+        if (viewMode == "day") {
+          const response = await getAllTask(startDate, endDate, viewMode);
+          setDayCallnder(response.data.task);
+        } else {
+          const response = await getAllTask(startDate, endDate, viewMode);
+          setTasks(response.data.task);
+        }
+        
       } catch (error) {
         console.error("Error fetching tasks:", error);
       } finally {
@@ -55,22 +71,16 @@ const GoogleCalendarUI = () => {
       }
     };
     handleFn();
-  }, [selectedDate,viewMode]);
-
-  // Loading screen
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  }, [selectedDate, viewMode]);
 
   return (
     <div className="min-h-screen bg-white mt-3">
       <div className="flex">
         <ManagerSideBar />
-
-       <main className="flex-1 p-4">
-          <CallenderController  />
+        <main className="flex-1 p-4">
+          <CallenderController />
           {viewMode === "month" && <MonthCallender event={tasks as any} />}
-          {viewMode === "day" && <DayView events={tasks} />}
+          {viewMode === "day" && <DayView events={dayCallander} />}
           {viewMode === "week" && <WeakCallender event={tasks} />}
         </main>
       </div>

@@ -12,9 +12,7 @@ import { format} from "date-fns";
 import { dicrement, increment } from "../redux/slice/dateSlice";
 import { setView } from "../redux/slice/viewSlice";
 
-// interface CallenderControllerProps {
-//   callBack: (item: "day" | "week" | "month") => void; // Callback function that accepts a string and returns void (no return value)
-// }
+
 
 
 const CallenderController =() => {
@@ -39,6 +37,7 @@ const CallenderController =() => {
     
     console.log(index)
     dispatch(setView(values))
+
     // setMenuData((prevState) => {
     //   const newMenuData = [...prevState];
 
@@ -50,6 +49,7 @@ const CallenderController =() => {
     //   return newMenuData;
     // });
     // callBack(values as "day" | "week" | "month");
+
   };
 
   return (
@@ -76,7 +76,7 @@ const CallenderController =() => {
             <Button>{va}</Button>
           </MenuHandler>
           <MenuList>
-            {menuData.map((values, index) => (
+            {menuData?.map((values, index) => (
               <MenuItem onClick={() => hanldeClickMenu(values, index)}>
                 {values}
               </MenuItem>

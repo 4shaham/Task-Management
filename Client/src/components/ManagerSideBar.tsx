@@ -177,7 +177,7 @@ const ManagerSideBar = () => {
                   Select Employees
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-48 overflow-y-auto">
-                  {employees.map((employee) => (
+                  {employees?.map((employee) => (
                     <div
                       key={employee._id}
                       className={`p-3 rounded-lg border cursor-pointer transition-colors duration-200 ${
