@@ -27,7 +27,7 @@ const CallenderController =() => {
       ar = ["week", "day", "month"];
     }
     setMenuData(ar);
-  }, []);
+  },[]);
 
   const selectedDate = useSelector((state: any) => state?.dateReducer.date);
   const va=useSelector((state:any)=>state?.viewReduxer.status)
@@ -76,7 +76,7 @@ const CallenderController =() => {
             <Button>{va}</Button>
           </MenuHandler>
           <MenuList>
-            {menuData?.map((values, index) => (
+            {["week", "day", "month"].map((values, index) => (
               <MenuItem onClick={() => hanldeClickMenu(values, index)}>
                 {values}
               </MenuItem>
