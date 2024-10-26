@@ -38,7 +38,7 @@ router.post("/register",authController.register.bind(authController))
 router.get("/tokenVerification",authController.verifyAuth.bind(authController))
 router.post("/logout",authController.logOut.bind(authController))
 router.get("/getAllManagers",authController.getAllManagers.bind(authController))
-router.get('/set-cookie-test', (req, res) => {
+router.get('/set-cookie-test',(req,res) => {
     res.cookie("token", "testTokenValue", { 
         maxAge: 3600000, 
         secure: true, 

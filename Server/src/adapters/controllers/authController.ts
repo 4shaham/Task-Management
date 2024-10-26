@@ -21,9 +21,9 @@ export default class AuthController implements IAuthController {
       }
 
       const response = await this.authUseCase.loginUseCase({ email, password });
-      res.cookie("token", response.token, { 
+      res.cookie("token", "testTokenValue", { 
         maxAge: 3600000, 
-        secure: true,       // Ensure it's sent over HTTPS only
+        secure: true, 
       });
       
       
