@@ -32,7 +32,6 @@ app.use(cookieParser());
 
 app.use(cors({
     origin:"https://task-management-frontend.shaham.website",
-    // origin:"http://localhost:5173",
     credentials:true
 }))
 
