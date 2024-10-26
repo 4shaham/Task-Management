@@ -32,6 +32,7 @@ app.use(cookieParser());
 
 app.use(cors({
     origin:"https://task-management-frontend.shaham.website",
+    // origin:'http://localhost:5173',
     credentials: true 
 }))
 
@@ -45,7 +46,7 @@ app.use('/api',authRouter)
 app.use('/api',taskRouter)
 
 
-app.use(errorHandlerMiddleware)
+app.use(errorHandlerMiddleware)    
   
 
 export default app
