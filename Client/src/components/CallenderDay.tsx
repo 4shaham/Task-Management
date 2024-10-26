@@ -57,7 +57,7 @@ const DayView: React.FC<Props> = ({ events }) => {
       {/* Events column */}
       <div className="flex-1 relative">
         <div className="absolute w-full">
-          {timeSlots.map((time) => {
+          {timeSlots?.map((time) => {
             const tasksInSlot = getTasksForTimeSlot(time);
             return (
               <div
@@ -69,7 +69,7 @@ const DayView: React.FC<Props> = ({ events }) => {
                     {tasksInSlot.map((event) =>
                       event.task
                         .filter((task) => isTaskInTimeSlot(task, time))
-                        .map((task: any) => (
+                        ?.map((task: any) => (
                           <Task task={task} />
 
                           //   <div
