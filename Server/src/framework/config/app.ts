@@ -32,6 +32,7 @@ app.use(cookieParser());
 
 app.use(cors({
     origin:"https://task-management-pevubz64r-shahams-projects.vercel.app",
+    // origin:"http://localhost:5173",
     credentials:true
 }))
 

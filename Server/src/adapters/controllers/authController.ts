@@ -21,7 +21,11 @@ export default class AuthController implements IAuthController {
       }
 
       const response = await this.authUseCase.loginUseCase({ email, password });
-      res.cookie("token", response.token, { maxAge: 3600000 });
+      res.cookie("token", response.token,{ 
+        maxAge: 3600000, 
+        domain: "task-managment.shaham.website" // Replace with your actual domain
+      });
+      
       res.status(StatusCode.success).json({payload:response});
 
     } catch (error) {  
