@@ -69,8 +69,8 @@ const GoogleCalendarUI = () => {
 
        <main className="flex-1 p-4">
           <CallenderController  />
-          {/* {viewMode === "month" && <MonthCallender event={tasks as any} />}
-          {viewMode === "day" && <DayView events={tasks} />} */}
+          {viewMode === "month" && <MonthCallender event={tasks as any} />}
+          {viewMode === "day" && <DayView events={tasks} />}
           {viewMode === "week" && <WeakCallender event={tasks} />}
         </main>
       </div>
