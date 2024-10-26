@@ -1,8 +1,8 @@
 export default interface IUser{
   _id: string;
-  name: String;
-  email: String;
-  password: String;
-  role: String;
+  name:string;
+  email: string;
+  password: string;
+  role: string;
   managerId?:string;
 }

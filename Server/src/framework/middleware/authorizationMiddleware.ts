@@ -13,6 +13,8 @@ const authorizationMiddleware=((req:IRequest,res:Response,next:NextFunction)=>{
           const token = req.cookies.token;
           let verification = jwtService.verify(token)
           req.userId = verification?.id as string;
+          req.role=verification?.role as string
+          
           next();
 
         } catch (error) {

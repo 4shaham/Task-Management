@@ -16,8 +16,8 @@ export interface LoginBody{
 
 export interface LoginResponse{
     message:string,
-    token:string,
-    userData:IUser
+    token:string,       
+    userData:IUser 
 }   
   
 

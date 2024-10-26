@@ -36,18 +36,15 @@ app.use(cors({
     credentials:true
 }))
 
-
+// morgan for get all routes console
+app.use(morgan('dev'))  
 
 app.use('/api',authRouter)
 app.use('/api',taskRouter)
 
-// morgan for get all routes console
-app.use(morgan('dev'))  
-
-
 
 app.use(errorHandlerMiddleware)
-
+  
 
 export default app
 

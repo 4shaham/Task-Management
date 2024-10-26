@@ -40,6 +40,16 @@ export default class AuthRepository implements IAuthRepository{
 
 
 
+    async getAllManagers(): Promise<IUser | null[]> {
+         try {
+            
+            return await this.users.find({role:"Manager"})
+
+         } catch (error) {
+             throw error
+         }
+    }
+
 
 
 

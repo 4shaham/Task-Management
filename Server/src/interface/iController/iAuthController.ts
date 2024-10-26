@@ -6,5 +6,5 @@ export default interface IAuthController {
   register(req: Request, res: Response,next:NextFunction): Promise<void>;
   logOut(req:Request,res:Response,next:NextFunction):Promise<void>  
   verifyAuth(req:Request,res:Response,next:NextFunction):Promise<void>
-  
+  getAllManagers(req:Request,res:Response,next:NextFunction):Promise<void>
 }

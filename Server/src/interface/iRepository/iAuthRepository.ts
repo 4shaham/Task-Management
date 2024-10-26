@@ -5,5 +5,5 @@ export interface IAuthRepository{
 
     emailIsExists(email:string):Promise<IUser|null>
     saveUserData(data:RegisterBodyData):Promise<void>
-   
+    getAllManagers():Promise<IUser|null[]>
 }  

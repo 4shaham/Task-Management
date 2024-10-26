@@ -44,10 +44,10 @@ export default class TaskController implements ITaskController {
         startTime,
         endTime,
       } = req.body;
-      let assignedBy=req.userId;
+      let assignedBy = req.userId;
 
-      if(!assignedBy){
-          return
+      if (!assignedBy) {
+        return;
       }
       let formData: createTaskData = {
         title,
@@ -60,32 +60,40 @@ export default class TaskController implements ITaskController {
         endTime,
       };
       await this.taskUseCase.createTask(formData);
-      res.status(StatusCode.success).json({message:"created succesffully"})
-
+      res.status(StatusCode.success).json({ message: "created succesffully" });
     } catch (error) {
       next(error);
     }
   }
 
-  
-  async getTask(req: IRequest, res: Response, next: NextFunction): Promise<void> {
-        try {
+  async getTask(
+    req: IRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
 
-          const startDate:Date=new Date(req.query.startDate as string)
-          const endDate:Date=new Date(req.query.endDate as string) 
-          const managerId=req.userId;   
-             
-          console.log("hii dey bro para",startDate,endDate)
+      const startDate: Date = new Date(req.query.startDate as string);
+      const endDate: Date = new Date(req.query.endDate as string);
+      const managerId = req.userId;
+      const filterStatus:string=req.query.fiterStaus as string
+      const role:string=req.role as string
 
-         const response= await this.taskUseCase.getAllTask(startDate,endDate,managerId as string)
-         console.log("ress",response)       
-     
-         res.status(StatusCode.success).json({task:response})  
-          
-        } catch (error) {            
-           console.log(error)
-          next(error)
-        }
+      const response = await this.taskUseCase.getAllTask(
+        startDate,
+        endDate,
+        managerId as string,
+        filterStatus,
+        role
+      );
+      
+      console.log("ress", response);
+      res.status(StatusCode.success).json({ task: response });
+
+    }catch(error){
+      console.log(error);
+      next(error);
+    }
   }
 
 }

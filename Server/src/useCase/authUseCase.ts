@@ -1,3 +1,4 @@
+import IUser from "../entity/userEntity";
 import { StatusCode } from "../enums/statusCode";
 import Errors from "../errors/error";
 import { IAuthRepository } from "../interface/iRepository/iAuthRepository";
@@ -113,6 +114,7 @@ export default class AuthUseCase implements IAuthUseCase {
       const token = await this.jwtService.createToken({
         email: user.email,
         id: user._id,
+        role:user.role
       });
       return {
         message: "login is sucessfully",
@@ -136,6 +138,16 @@ export default class AuthUseCase implements IAuthUseCase {
        throw error  
     }
 
+  }
+
+  async getAllManagers(): Promise<IUser | null[]> {
+     try {
+      
+      return await this.authRepository.getAllManagers()
+
+     } catch (error) {
+       throw error
+     }
   }
 
 

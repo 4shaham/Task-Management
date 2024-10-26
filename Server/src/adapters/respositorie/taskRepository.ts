@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 import ITask from "../../entity/taskEntity";
 import ITaskRepository from "../../interface/iRepository/iTaskRepository";
 import IUser from "../../entity/userEntity";
@@ -18,7 +18,7 @@ export default class TaskRepository implements ITaskRepository {
     } catch (error) {
       throw error;
     }
-  }
+  }  
 
   async saveTask(data: createTaskData): Promise<void> {
     try {
@@ -41,21 +41,193 @@ export default class TaskRepository implements ITaskRepository {
   async getAllTask(
     startDate: Date,
     endDate: Date,
-    managerId: string
+    managerId: string,
+    fiterStaus: string
   ): Promise<ITask | null[]> {
     try {
 
-      return await this.task.find({
-        $and: [
-          { startDate: { $gte: startDate } },
-          { startDate: { $lte: endDate } },
-        ],
-        assignedBy: managerId,
-      });
+      if(fiterStaus=="day"){
+        return await this.task.aggregate([
+          {
+            $match: {  
+              $and: [
+                { startDate: { $gte: startDate } },
+                { startDate: { $lte: endDate } },
+                { assignedBy: new mongoose.Types.ObjectId(managerId) },
+              ],
+            },
+          },
+          {
+            $group: {
+              _id: "$startTime",
+              task: { $push: "$$ROOT" },
+            },
+          },
+        ]);
+      }
 
+      if (fiterStaus == "month") {
+
+        return this.task.aggregate([
+          {
+            $match: {
+              $and: [
+                { startDate: { $gte: startDate } },
+                { startDate: { $lte: endDate } },
+                { assignedBy: new mongoose.Types.ObjectId(managerId) },
+              ],
+            },
+          },
+          {
+            $group: {
+              _id:"$startDate",
+              task: { $push: "$$ROOT" },
+            },
+          },
+        ]);
+
+      }else if(fiterStaus=="week"){
+        
+        return await this.task.aggregate([
+          {
+            $match: {
+              $and: [
+                { startDate: { $gte: startDate } },
+                { startDate: { $lte: endDate } },
+                { assignedBy: new mongoose.Types.ObjectId(managerId) }
+              ],
+            },
+          },
+          {
+            $project: {
+              dayOfWeek: { $dayOfWeek: "$startDate" }, // 1 (Sunday) to 7 (Saturday)
+              day: { $dayOfMonth: "$startDate" },
+              month: { $month: "$startDate" },
+              year: { $year: "$startDate" },
+              hour: { $hour: "$startDate" },
+              minute: { $minute: "$startDate" },
+              task: "$$ROOT",
+            },
+          },
+          {
+            $group: {
+              _id: {
+                dayOfWeek: "$dayOfWeek",
+                day: "$day",
+                month: "$month",
+                year: "$year",
+                hour: "$hour",
+                minute: "$minute"
+              },
+              tasks: { $push: "$task" },
+            },
+          },
+          {
+            $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1, "_id.hour": 1, "_id.minute": 1 }
+          }
+        ]);
+        
+      }
     
 
-    } catch (error) { 
+      return [null]
+     
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  async getAllTaskEmp(
+    startDate: Date,
+    endDate: Date,
+    empId: string,
+    filterStatus: string
+  ): Promise<ITask|null[]> {
+    try {
+
+   
+        console.log("djfdkjf shaham salam")
+
+        if(filterStatus=="month"){
+            return await this.task.aggregate([
+                {
+                  $match: {
+                    $and: [
+                      { startDate: { $gte: startDate } },
+                      { startDate: { $lte: endDate } },
+                      { assignedTo: { $in: [new mongoose.Types.ObjectId(empId)] } }
+                    ],
+                  },
+                },
+                {
+                  $group: {
+                    _id: "$startDate",
+                    task: { $push: "$$ROOT" },
+                  },
+                },
+              ]);
+        }
+
+        if(filterStatus=="week"){
+          return await this.task.aggregate([
+            {
+              $match: {
+                $and: [
+                  { startDate: { $gte: startDate } },
+                  { startDate: { $lte: endDate } },
+                  { assignedTo:{$in:[new mongoose.Types.ObjectId(empId)]}}
+                ],
+              },
+            },
+            {
+              $project: {
+                dayOfWeek: { $dayOfWeek: "$startDate" }, // 1 (Sunday) to 7 (Saturday)
+                day: { $dayOfMonth: "$startDate" },
+                month: { $month: "$startDate" },
+                year: { $year: "$startDate" },
+                hour: { $hour: "$startDate" },
+                minute: { $minute: "$startDate" },
+                task: "$$ROOT",
+              },
+            },
+            {
+              $group: {
+                _id: {
+                  dayOfWeek: "$dayOfWeek",
+                  day: "$day",
+                  month: "$month",
+                  year: "$year",
+                  hour: "$hour",
+                  minute: "$minute"
+                },
+                tasks: { $push: "$task" },
+              },
+            },
+            {
+              $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1, "_id.hour": 1, "_id.minute": 1 }
+            }
+          ]);
+          
+        }
+
+        return await this.task.aggregate([
+            {
+              $match: {
+                $and: [
+                  { startDate: { $gte: startDate } },
+                  { startDate: { $lte: endDate } },
+                  { assignedTo: { $in: [new mongoose.Types.ObjectId(empId)] } }
+                ],
+              },
+            },
+            {
+              $group: {
+                _id: "$startTime",
+                task: { $push: "$$ROOT" },
+              },
+            },
+          ]);
+    } catch (error) {
       throw error;
     }
   }

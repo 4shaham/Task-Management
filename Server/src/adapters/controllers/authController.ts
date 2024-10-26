@@ -17,16 +17,15 @@ export default class AuthController implements IAuthController {
       const {email,password}=req.body;
 
       if (!email || !password) {
-        throw new Errors("all field is required", StatusCode.forBidden);
+         throw new Errors("all field is required", StatusCode.forBidden);
       }
 
       const response = await this.authUseCase.loginUseCase({ email, password });
       res.cookie("token", response.token, { maxAge: 3600000 });
-      res.status(StatusCode.success).json(response);
+      res.status(StatusCode.success).json({payload:response});
 
-      
-    } catch (error) {
-      next(error);
+    } catch (error) {  
+      next(error);  
     }
   }
 
@@ -72,14 +71,24 @@ export default class AuthController implements IAuthController {
       if(!token){
         throw new Errors("token is empty",StatusCode.UnAuthorized)
       }
-      await this.authUseCase.verifyAuthUseCase(token)
-      res.status(StatusCode.success).json({message:"verified"})
+      let r= await this.authUseCase.verifyAuthUseCase(token)
+
+      res.status(StatusCode.success).json({tokenData:r})
     } catch (error) {
         next(error)
     }
   }
 
 
-  
+  async getAllManagers(req:Request,res:Response,next:NextFunction){
+          try {
+            
+            const result=await this.authUseCase.getAllManagers()
+            res.status(StatusCode.success).json({managers:result}) 
+
+          } catch (error) {
+            next(error)
+          }
+  }
 
 }

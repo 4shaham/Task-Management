@@ -7,6 +7,7 @@ export default class JwtService implements IJwtService{
 
   createToken(data:JwtPayloadData): string {
     try {
+      console.log(data,"payloadin idfidufi")
       let secret: string = process.env.JWT_SECRET_key!;
       let token = Jwt.sign(data, secret, { expiresIn: "1h" });
       return token;

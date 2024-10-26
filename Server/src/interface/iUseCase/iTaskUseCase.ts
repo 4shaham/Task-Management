@@ -7,5 +7,5 @@ import ITask from "../../entity/taskEntity";
 export default interface ITaskUseCase {
     getEmployeeUseCase(id:string,name?:string):Promise<IUser|null[]>
     createTask(formData:createTaskData):Promise<void>
-    getAllTask(startDate:Date,endDate:Date,managerId:string):Promise<ITask|null[]>
+    getAllTask(startDate:Date,endDate:Date,managerId:string,filterStatus:string,role:string):Promise<ITask|null[]>
 }
