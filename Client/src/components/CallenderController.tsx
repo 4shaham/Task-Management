@@ -17,7 +17,7 @@ import { setView } from "../redux/slice/viewSlice";
 
 const CallenderController =() => {
 
-  const [menuData, setMenuData] = useState<string[]>([]);
+  const [menuData,setMenuData] = useState<string[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const CallenderController =() => {
             <Button>{va}</Button>
           </MenuHandler>
           <MenuList>
-            {["week", "day", "month"].map((values, index) => (
+            {menuData?menuData:["week", "day", "month"].map((values, index) => (
               <MenuItem onClick={() => hanldeClickMenu(values, index)}>
                 {values}
               </MenuItem>
