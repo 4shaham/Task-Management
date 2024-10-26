@@ -5,7 +5,6 @@ interface IEvens {
   title: string;
   startTime: string;
   endTime: string;
-  // Add other properties as needed
 }
 
 interface Ta {
@@ -18,7 +17,8 @@ interface Props {
 }
 
 const DayView: React.FC<Props> = ({ events }) => {
-  // Generate time slots for day view
+  console.log("eveer",events)
+
   const timeSlots = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
     return `${hour}:00`;

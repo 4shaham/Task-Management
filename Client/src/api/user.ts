@@ -67,4 +67,6 @@ export const getAllTask = async (
     `${userEndPoints.getManagerTask}?startDate=${startDate}&&endDate=${endDate}&&fiterStaus=${filterStatus}`
   );
 
+
+export const getAllManagers=async()=>await api.get(userEndPoints.getAllManagers)  
   

@@ -8,8 +8,8 @@ const userEndPoints={
     tokenVerification:'/api/tokenVerification',
     getAllEmpoyees:'/api/employees',
     getManagerTask:'/api/getAllTask',
-    addTask:'/api/addTask'
-
+    addTask:'/api/addTask',
+    getAllManagers:'/api/getAllManagers'
 }
 
 

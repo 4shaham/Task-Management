@@ -8,7 +8,7 @@ function HomePage() {
       <div className="w-full p-4">
         <NavbarWithMegaMenu />
         <div className="min-h-screen">
-          <GoogleCalendarUI />
+           <GoogleCalendarUI />
         </div>
         <FooterWithSitemap />
       </div>

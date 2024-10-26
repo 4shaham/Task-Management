@@ -1,6 +1,15 @@
+import IEvens from "../interface/events"
 
-function MonthCallender() {
+interface Props{
+    event:IEvens
+}
+
+const MonthCallender:React.FC<Props>=({event})=>{
+
+   console.log(event) 
+
   return (
+    
     <div className="grid grid-cols-7 border-t border-l">
     {/* Day headers */}
     {[

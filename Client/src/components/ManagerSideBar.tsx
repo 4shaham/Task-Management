@@ -23,15 +23,17 @@ import {
   DialogFooter,
   Textarea,
 } from "@material-tailwind/react";
-import {Input} from "@material-tailwind/react";
-import {useDispatch, useSelector } from "react-redux";
-import {setDateOf} from "../redux/slice/dateSlice";
-import { addTask,getAllEmpoyees } from "../api/user";
+import { Input } from "@material-tailwind/react";
+import { useDispatch, useSelector } from "react-redux";
+import { setDateOf } from "../redux/slice/dateSlice";
+import { addTask, getAllEmpoyees } from "../api/user";
 import IUser from "../interface/Iuser";
 
 const ManagerSideBar = () => {
-
-  const role=useSelector((state:any)=>state.userReducer.userAuthStatus.role)
+  
+  const role = useSelector(
+    (state: any) => state.userReducer.userAuthStatus.role
+  );
   const [currentDate, setCurrentDate] = useState(new Date());
   const dispatch = useDispatch();
   const [employees, setEmployees] = useState<IUser[]>([]);
@@ -47,16 +49,16 @@ const ManagerSideBar = () => {
   });
   const selectedDate = useSelector((state: any) => state.dateReducer.date);
 
-
-
   useEffect(() => {
-    const hadndleFn = async () => {
-      try {
-        const response = await getAllEmpoyees();
-        setEmployees(response.data.employees);
-      } catch (error) {}
-    };
-    hadndleFn();
+    if (role == "Manager") {
+      const hadndleFn = async () => {
+        try {
+          const response = await getAllEmpoyees();
+          setEmployees(response.data.employees);
+        } catch (error) {}
+      };
+      hadndleFn();
+    }
   }, []);
 
   // Calendar Navigation
@@ -67,7 +69,7 @@ const ManagerSideBar = () => {
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-  console.log(daysInMonth)
+  console.log(daysInMonth);
   // Get days for calendar grid
   const startDate = startOfMonth(currentDate);
   const startWeek = startOfMonth(startDate);
@@ -86,31 +88,28 @@ const ManagerSideBar = () => {
     dispatch(setDateOf(date));
   };
 
- 
-
-  const handleSubmit = async(e: any) => {
-
+  const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
       // Handle form submission
       console.log(formData);
-      await addTask(formData.title,formData.description,formData.selectedEmployees,new Date(formData.startDate),new Date(formData.endDate),formData.startTime
-        ,formData.endTime
-      )
+      await addTask(
+        formData.title,
+        formData.description,
+        formData.selectedEmployees,
+        new Date(formData.startDate),
+        new Date(formData.endDate),
+        formData.startTime,
+        formData.endTime
+      );
       handleOpen();
-      alert("successfully added task") 
+      alert("successfully added task");
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-
   };
 
- 
-
   const toggleEmployee = (employeeId: any) => {
-
-   
-     
     setFormData((prev: any) => ({
       ...prev,
       selectedEmployees: prev.selectedEmployees.includes(employeeId)
@@ -121,21 +120,17 @@ const ManagerSideBar = () => {
 
   return (
     <aside className="w-64 p-4 border-r border-gray-200 h-[calc(100vh-64px)] flex flex-col bg-white">
-      
-      
       {/* Create Button */}
 
-    
-      {role=="Manager" && 
-          <Button
+      {role == "Manager" && (
+        <Button
           onClick={handleOpen}
           className="mb-6 shadow-sm bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 py-3"
         >
           <Plus className="h-5 w-5" />
           Create
         </Button>
-      }
-     
+      )}
 
       <Dialog open={open} handler={handleOpen} size="lg">
         <form onSubmit={handleSubmit}>

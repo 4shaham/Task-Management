@@ -12,6 +12,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Pencil, Trash2, Clock, Calendar, User} from "lucide-react";
+import { useSelector } from "react-redux";
 
 interface IEvens {
   _id: string;
@@ -31,11 +32,15 @@ interface Props {
   onDelete?: (taskId: string) => Promise<void>;
 }
 
-const Task: React.FC<Props> = ({ task, onUpdate, onDelete }) => {
+const Task: React.FC<Props> = ({task,onUpdate,onDelete }) => {
+
   const [open, setOpen] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [editedTask, setEditedTask] = React.useState<IEvens>(task);
+  const role = useSelector(
+    (state: any) => state.userReducer.userAuthStatus.role
+  );
 
   const handleOpen = () => setOpen(!open);
 
@@ -152,7 +157,8 @@ const Task: React.FC<Props> = ({ task, onUpdate, onDelete }) => {
             )}
           </div>
           <div className="flex gap-2">
-            {!isEditing && (
+            {!isEditing && role=="Manager" && (
+              <>
               <IconButton
                 variant="text"
                 color="blue-gray"
@@ -160,14 +166,17 @@ const Task: React.FC<Props> = ({ task, onUpdate, onDelete }) => {
               >
                 <Pencil className="h-4 w-4" />
               </IconButton>
-            )}
-            <IconButton
+              <IconButton
               variant="text"
               color="red"
               onClick={handleDelete}
             >
               <Trash2 className="h-4 w-4" />
             </IconButton>
+              </>
+              
+            )}
+            
           </div>
         </DialogHeader>
 
