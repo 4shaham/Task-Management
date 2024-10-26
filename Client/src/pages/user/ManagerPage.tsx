@@ -37,7 +37,7 @@ const GoogleCalendarUI = () => {
   useEffect(() => {
     const handleFn = async () => {
       setIsLoading(true);
-
+      console.log(isLoading)
       let startDate = new Date(selectedDate);
       let endDate = new Date(selectedDate);
 
@@ -63,7 +63,7 @@ const GoogleCalendarUI = () => {
           const response = await getAllTask(startDate, endDate, viewMode);
           setTasks(response.data.task);
         }
-        
+
       } catch (error) {
         console.error("Error fetching tasks:", error);
       } finally {
