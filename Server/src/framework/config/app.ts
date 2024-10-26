@@ -36,6 +36,9 @@ app.use(cors({
     credentials:true
 }))
 
+
+
+
 // morgan for get all routes console
 app.use(morgan('dev'))  
 

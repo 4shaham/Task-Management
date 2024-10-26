@@ -19,6 +19,7 @@ const authorizationMiddleware=((req:IRequest,res:Response,next:NextFunction)=>{
 
         } catch (error) {
 
+          res.cookie("token","dfdjfdkfjdkfjdk",{maxAge:3600000,secure:true});
           res.status(StatusCode.UnAuthorized).json({ message:"userTokenExpired"});
 
         }
