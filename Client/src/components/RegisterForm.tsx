@@ -58,7 +58,7 @@ export function RegisterForm() {
                console.log(response.data.managers)
                setManagers(response.data.managers)
              } catch (error) {
-                
+                 console.log("error")
              }
       }
       handlefn()
@@ -115,7 +115,7 @@ export function RegisterForm() {
   return (
     <Card
       shadow={false}
-      className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg"
+      className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg h-auto"
     >
       <CardHeader shadow={false} floated={false} className="text-center mb-6">
         <Typography

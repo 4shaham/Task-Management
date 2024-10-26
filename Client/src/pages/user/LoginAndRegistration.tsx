@@ -45,7 +45,7 @@ function LoginAndRegistration() {
   
   return (
     <>
-      <div className="h-screen flex items-center justify-center ">
+      <div className="min-h-screen flex items-center justify-center ">
         <div className="w-full sm:w-1/2 lg:w-1/2 p-8 shadow-lg rounded-lg bg-gray-100">
           {userStatus!=true?<Outlet />:<Navigate to={"/"}/>} 
         </div>
