@@ -57,7 +57,7 @@ export default class AuthController implements IAuthController {
 
   async logOut(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      res.cookie("token", "", { maxAge: 3600000 });
+      res.cookie("token", "",{maxAge:3600000,secure:true});
       res.status(StatusCode.success).json({ message: "successfully logOut" });
     } catch (error) {
       next(error);
